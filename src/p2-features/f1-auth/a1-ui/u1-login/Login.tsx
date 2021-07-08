@@ -13,11 +13,16 @@ const Login: React.FC<{ setProfile: (pr: UserType | undefined) => void, profile:
     const login = async () => {
         setEr('')
         try {
-            const pr = await AuthAPI.login(em, pas)
-            console.log(pr.data)
-            setProfile(pr.data)
+            const pr = (await AuthAPI.login(em, pas)).data as UserType
+            // console.log(pr.data)
+            localStorage
+                .setItem('token', JSON.stringify({token: pr.token, dt: pr.tokenDeathTime, device: pr.device}))
+            setProfile(pr)
         } catch (e) {
-            setEr(JSON.stringify({...e}))
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
+            setEr(error)
         }
     }
 

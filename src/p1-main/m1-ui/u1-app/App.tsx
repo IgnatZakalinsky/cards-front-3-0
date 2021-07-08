@@ -14,6 +14,7 @@ export type UserType = {
     rememberMe: boolean
     token: string
     tokenDeathTime: number
+    device: string
     updated: string
     verified: boolean
     __v: number
